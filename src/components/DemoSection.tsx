@@ -9,7 +9,9 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
 
 interface ReplyResponse {
-  variations: string[];
+  summary: string;
+  recommendedAction: string;
+  replies: string[];
 }
 
 export function DemoSection() {
@@ -19,7 +21,7 @@ export function DemoSection() {
   const [replyLength, setReplyLength] = useState('medium')
   const [variations, setVariations] = useState('1')
   const [useEmojis, setUseEmojis] = useState(true)
-  const [output, setOutput] = useState<string[]>([])
+  const [output, setOutput] = useState<ReplyResponse | null>(null)
   const [demoUsed, setDemoUsed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -48,11 +50,11 @@ export function DemoSection() {
       }
 
       const data: ReplyResponse = await response.json()
-      setOutput(data.variations)
+      setOutput(data)
       setDemoUsed(true)
     } catch (error) {
       console.error('Error generating reply:', error)
-      setOutput(['Sorry, there was an error generating the reply.'])
+      setOutput(null)
     } finally {
       setIsLoading(false)
     }
@@ -63,7 +65,7 @@ export function DemoSection() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Try FlowThread Demo</h2>
         <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
-          <p className="text-center text-blue-600 font-semibold">What's the thread context?</p>
+          <p className="text-center text-blue-600 font-semibold">What&apos;s the thread context?</p>
           <Textarea
             placeholder="Paste your thread or message context here"
             value={input}
@@ -152,19 +154,23 @@ export function DemoSection() {
           >
             {isLoading ? 'Generating...' : 'Generate Reply'}
           </Button>
-
-          {output.length > 0 && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold mb-2">Generated Replies:</h3>
-              {output.map((reply, index) => (
-                <p key={index} className="bg-gray-100 p-4 rounded mb-2">
-                  {reply}
-                </p>
-              ))}
-              <p className="mt-4 text-center text-blue-600 font-semibold">
-                Love this? <a href="/signup" className="underline">Sign up for more options!</a>
-              </p>
-            </div>
+          {output && (
+            <>
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2">Summary:</h3>
+                <p className="bg-gray-100 p-4 rounded mb-2">{output.summary}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Recommended Action:</h3>
+                <p className="bg-gray-100 p-4 rounded mb-2">{output.recommendedAction}</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Replies:</h3>
+                {output.replies.map((reply, index) => (
+                  <p key={index} className="bg-gray-100 p-4 rounded mb-2">{reply}</p>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>
