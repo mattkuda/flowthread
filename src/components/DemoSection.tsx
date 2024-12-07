@@ -89,8 +89,12 @@ export function DemoSection() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="casual">Casual</SelectItem>
-                  <SelectItem value="formal" disabled>Formal</SelectItem>
-                  <SelectItem value="humorous" disabled>Humorous</SelectItem>
+                  <SelectItem value="formal">Professional</SelectItem>
+                  <SelectItem value="humorous">Humorous</SelectItem>
+                  <SelectItem value="professional">Convincing</SelectItem>
+                  <SelectItem value="inspirational">Inspirational</SelectItem>
+                  <SelectItem value="empathetic">Empathetic</SelectItem>
+                  <SelectItem value="enthusiastic">Enthusiastic</SelectItem>
                 </SelectContent>
               </Select>
             </div>
