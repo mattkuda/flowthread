@@ -7,12 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Switch } from '@/components/ui/switch'
+import { Sparkles } from 'lucide-react'
 
 interface ReplyResponse {
   summary: string;
   recommendedAction: string;
   replies: string[];
 }
+
+const spinAnimation = "animate-spin";
 
 export function DemoSection() {
   const [input, setInput] = useState('')
@@ -22,7 +25,6 @@ export function DemoSection() {
   const [variations, setVariations] = useState('1')
   const [useEmojis, setUseEmojis] = useState(true)
   const [output, setOutput] = useState<ReplyResponse | null>(null)
-  const [demoUsed, setDemoUsed] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleGenerateReply = async () => {
@@ -51,7 +53,6 @@ export function DemoSection() {
 
       const data: ReplyResponse = await response.json()
       setOutput(data)
-      setDemoUsed(true)
     } catch (error) {
       console.error('Error generating reply:', error)
       setOutput(null)
@@ -156,7 +157,17 @@ export function DemoSection() {
             // disabled={demoUsed || !input || isLoading}
             className="w-full"
           >
-            {isLoading ? 'Generating...' : 'Generate Reply'}
+            {isLoading ? (
+              <div className="flex items-center space-x-2">
+                Generating...
+                <Sparkles className={`w-4 h-4 ml-2 ${spinAnimation}`} />
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                Generate Reply
+                <Sparkles className="w-4 h-4 ml-2" />
+              </div>
+            )}
           </Button>
           {output && (
             <>

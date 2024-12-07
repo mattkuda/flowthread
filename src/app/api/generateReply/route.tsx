@@ -40,14 +40,14 @@ export async function POST(req: Request) {
         const prompt = `
         You are an assistant generating responses for a Slack thread. 
         Follow these instructions to structure your output exactly as specified:
-        1. Summarize the thread in 2-3 sentences.
+        1. Summarize the thread context (not including the instructions) in 2-3 sentences.
         2. Provide a recommended action for the user.
-        3. Generate ${variations} replies in the requested tone and style.
+        3. Generate ${variations} replies ${instructions && `follwing the instructions fully`} in the requested tone and style.
         
         Thread Context:
         ${threadContext}
         
-        ${instructions ? `Additional Instructions: ${instructions}` : "Additional Instructions: None"}
+        ${instructions && `The instructions for the response must follow: ${instructions}`}
         Tone: ${tone}
         Reply Length: ${getReplyLengthInstructions(replyLength)}
         ${useEmojis ? "Include appropriate emojis in replies." : "Do not use emojis."}

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Button } from './ui/button'
 
 export function Header() {
   return (
@@ -10,7 +11,7 @@ export function Header() {
           </Link>
         </div>
         <nav>
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-6 items-center">
             <li>
               <Link href="#features" className="text-gray-600 hover:text-gray-800">
                 Features
@@ -25,6 +26,13 @@ export function Header() {
               <Link href="/login" className="text-gray-600 hover:text-gray-800">
                 Login
               </Link>
+            </li>
+            <li>
+              <Button asChild>
+                <Link href="/signup">
+                  Try For free
+                </Link>
+              </Button>
             </li>
           </ul>
         </nav>
